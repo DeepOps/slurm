@@ -11,6 +11,7 @@ RUN apt-get update \
 RUN gem install --no-document fpm
 
 # Set version
+#ARG VERSION=17.11.13-2
 ARG VERSION=18.08.5-2
 
 # Get source
@@ -28,7 +29,7 @@ RUN make install "-j$(nproc)"
 
 # Make package
 WORKDIR /workdir
-RUN fpm -s dir -t deb -v 1 -n "slurm-$VERSION" --prefix=/usr -C /workdir/build .
+RUN fpm -s dir -t deb -v "$VERSION" -n slurm --prefix=/usr -C /workdir/build .
 
 # Copy deb to /dist/
 RUN mkdir -p /dist
