@@ -1,4 +1,5 @@
-FROM ubuntu:16.04
+ARG UBUNTU_CODENAME
+FROM ubuntu:$UBUNTU_CODENAME
 
 # Install deps
 RUN apt-get update \
@@ -14,14 +15,12 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 RUN gem install --no-document fpm
 
-# Set version
-#ARG VERSION=17.02.9-2
-ARG VERSION=17.11.13-2
-#ARG VERSION=18.08.5-2
+ARG UBUNTU_CODENAME
+ARG SLURM_VERSION
 
 # Get source
 WORKDIR /workdir
-RUN wget -q -O slurm.tar.bz2 "https://download.schedmd.com/slurm/slurm-${VERSION}.tar.bz2"
+RUN wget -q -O slurm.tar.bz2 "https://download.schedmd.com/slurm/slurm-${SLURM_VERSION}.tar.bz2"
 WORKDIR /workdir/src
 RUN tar xjf ../slurm.tar.bz2 --strip-components=1
 
@@ -34,7 +33,7 @@ RUN make install "-j$(nproc)"
 
 # Make package
 WORKDIR /workdir
-RUN fpm -s dir -t deb -v "$VERSION" -n slurm --prefix=/usr -C /workdir/build .
+RUN fpm -s dir -t deb -v "$SLURM_VERSION-$UBUNTU_CODENAME" -n slurm --prefix=/usr -C /workdir/build .
 
 # Copy deb to /dist/
 RUN mkdir -p /dist
