@@ -4,6 +4,10 @@ FROM ubuntu:16.04
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         build-essential \
+        libmunge-dev \
+        libmariadb-client-lgpl-dev \
+        libmysqlclient-dev \
+        libpam0g-dev \
         python-minimal \
         ruby-dev \
         wget \
@@ -11,8 +15,9 @@ RUN apt-get update \
 RUN gem install --no-document fpm
 
 # Set version
-#ARG VERSION=17.11.13-2
-ARG VERSION=18.08.5-2
+#ARG VERSION=17.02.9-2
+ARG VERSION=17.11.13-2
+#ARG VERSION=18.08.5-2
 
 # Get source
 WORKDIR /workdir
