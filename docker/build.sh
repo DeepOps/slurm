@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-SLURM_VERSION=18.08.5-2
+SLURM_VERSION=19.05.0
 UBUNTU_CODENAMES='xenial bionic'
 CENTOS_RELEASES='7'
 
